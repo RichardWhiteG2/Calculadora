@@ -43,9 +43,10 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-    fun numeropresionado(digito: String){
+    private fun numeropresionado(digito: String){
         val total: TextView= findViewById(R.id.tvTotal)
 
         total.text ="${total.text}$digito"
     }
+
 }

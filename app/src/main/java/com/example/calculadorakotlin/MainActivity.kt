@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        //total.text ="${total.text}$digito"
+
 
     }
 
@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
         val total: TextView= findViewById(R.id.tvTotal)
         total.text=operador
         primer_numero=false
-        segundo_numero=true
+        segundo_numero=true  //abilita para que se puedan continuar haciendo operaciones.
         if(operador=="+"){
             operacion=1
         }

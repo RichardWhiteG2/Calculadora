@@ -10,6 +10,7 @@ class MainActivity : AppCompatActivity() {
     private  var num2: Double=0.0
     private var operacion: Int =0
     private var cuenta: Double=0.0
+    private var primer_numero: Boolean= true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,31 +34,34 @@ class MainActivity : AppCompatActivity() {
         val mas: TextView = findViewById(R.id.signo_mas)
         val menos: TextView = findViewById(R.id.signo_menos)
         val mul: TextView = findViewById(R.id.signo_mul)
-        total.text="0.0"
+
         //Cuando se presiona un numero
-        uno.setOnClickListener{numeropresionado("1",true)}
-        dos.setOnClickListener{numeropresionado("2",true)}
-        tres.setOnClickListener{numeropresionado("3",true)}
-        cuatro.setOnClickListener{numeropresionado("4",true)}
-        cinco.setOnClickListener{numeropresionado("5",true)}
-        seis.setOnClickListener{numeropresionado("6",true)}
-        siete.setOnClickListener{numeropresionado("7",true)}
-        ocho.setOnClickListener{numeropresionado("8",true)}
-        nueve.setOnClickListener{numeropresionado("9",true)}
-        cero.setOnClickListener{numeropresionado("0",true)}
-        punto.setOnClickListener{numeropresionado(".",true)}
+        uno.setOnClickListener{numeropresionado("1")}
+        dos.setOnClickListener{numeropresionado("2")}
+        tres.setOnClickListener{numeropresionado("3")}
+        cuatro.setOnClickListener{numeropresionado("4")}
+        cinco.setOnClickListener{numeropresionado("5")}
+        seis.setOnClickListener{numeropresionado("6")}
+        siete.setOnClickListener{numeropresionado("7")}
+        ocho.setOnClickListener{numeropresionado("8")}
+        nueve.setOnClickListener{numeropresionado("9")}
+        cero.setOnClickListener{numeropresionado("0")}
+        punto.setOnClickListener{numeropresionado(".")}
 
 
         //Operaciones presionadas
 
-        mas.setOnClickListener {numeropresionado("+",false)}
-        menos.setOnClickListener {numeropresionado("-",false)}
-        div.setOnClickListener {numeropresionado("/",false)}
-        mul.setOnClickListener {numeropresionado("*",false)}
+        mas.setOnClickListener {operacionpresionada("+") }
+        menos.setOnClickListener {operacionpresionada("-")}
+        div.setOnClickListener {operacionpresionada("/")}
+        mul.setOnClickListener {operacionpresionada("*")}
 
 
         borrar.setOnClickListener {
-            total.text=""
+            total.text="0.0"
+            cuenta = 0.0
+            primer_numero=true
+            //operacion=0
         }
         //opciones adicionales
 
@@ -70,36 +74,55 @@ class MainActivity : AppCompatActivity() {
         }
 
         igual.setOnClickListener {
-            var resultado = when(operacion){
-                Suma -> num1 +num2
-                resta -> num1 - num2
-                division -> num1 / num2
-                multiplicacion -> num1 *num2
-                else -> 0
+            cuenta = when(operacion){
+                1 -> num1 +num2
+                2 -> num1 - num2
+                3 -> num1 * num2
+                4 -> num1 /num2
+                else -> num1
             }
-            total.text=resultado.toString()
+            total.text = cuenta.toString()
+            primer_numero=true
         }
 
     }
     //Funcion para agregar el número precionado en la vista
-    fun numeropresionado(digito: String, limpíar_datos:Boolean){
+    private fun numeropresionado(digito: String){
         val total: TextView= findViewById(R.id.tvTotal)
-
-        total.text ="${total.text}$digito"
-
-        if (operacion== no_operacion){
-            num1 = total.text.toString().toDouble()
-        }else{
-            num2 = total.text.toString().toDouble()
+        if (operacion>0 ){
+            total.text=""
         }
+        if(primer_numero){
+            operacion=0
+            total.text ="${total.text}$digito"
+            num1=total.text.toString().toDouble()
+        }else{
+
+            total.text ="${total.text}$digito"
+            num2=total.text.toString().toDouble()
+        }
+
+        //total.text ="${total.text}$digito"
+
     }
-    //Para saber que operacion se va a realizar i guardar el primer valor
-    private fun operacionPresionada(operacion: Int){
+
+    private fun operacionpresionada(operador:String){
         val total: TextView= findViewById(R.id.tvTotal)
+        total.text=operador
+        primer_numero=false
+        if(operador=="+"){
+            operacion=1
+        }
+        if(operador=="-"){
+            operacion=2
+        }
+        if(operador=="*"){
+            operacion=3
+        }
+        if(operador=="/"){
+            operacion=4
+        }
 
-        this.operacion = operacion
-
-        num1 = total.text.toString().toDouble()
-        total.text="0"
     }
+
 }

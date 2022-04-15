@@ -11,6 +11,7 @@ class MainActivity : AppCompatActivity() {
     private var operacion: Int =0
     private var cuenta: Double=0.0
     private var primer_numero: Boolean= true
+    private var segundo_numero: Boolean= false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
 
         borrar.setOnClickListener {
-            total.text="0.0"
+            total.text=""
             cuenta = 0.0
             primer_numero=true
             //operacion=0
@@ -82,24 +83,29 @@ class MainActivity : AppCompatActivity() {
                 else -> num1
             }
             total.text = cuenta.toString()
-            primer_numero=true
+            //primer_numero=true
+            num1=cuenta
         }
 
     }
     //Funcion para agregar el número precionado en la vista
     private fun numeropresionado(digito: String){
         val total: TextView= findViewById(R.id.tvTotal)
-        if (operacion>0 ){
-            total.text=""
-        }
+
         if(primer_numero){
             operacion=0
             total.text ="${total.text}$digito"
             num1=total.text.toString().toDouble()
         }else{
-
+            if(segundo_numero){
+                total.text=""
+            }
             total.text ="${total.text}$digito"
+            segundo_numero=false
+
             num2=total.text.toString().toDouble()
+
+
         }
 
         //total.text ="${total.text}$digito"
@@ -110,6 +116,7 @@ class MainActivity : AppCompatActivity() {
         val total: TextView= findViewById(R.id.tvTotal)
         total.text=operador
         primer_numero=false
+        segundo_numero=true
         if(operador=="+"){
             operacion=1
         }
